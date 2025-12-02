@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiController {
 
-    @GetMapping("/api")
-    public String getData() {
-        return "Sample Data from API";
-    }
-
+  @GetMapping("/api")
+  public String getData() {
+    return "Sample Data from API";
+  }
 }

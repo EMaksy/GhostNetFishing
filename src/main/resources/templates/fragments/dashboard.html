@@ -7,37 +7,12 @@
     <section class="hero text-center text-white mb-4">
         <h1>Help Us Clear the Oceans.</h1>
         <p>Report &amp; Recover Ghost Nets.</p>
-        <button class="btn btn-primary">Report a Net</button>
+        <a class="btn btn-primary" th:href="@{/report}">Report a Net</a>
         <button class="btn btn-outline-light">Join Recovery Effort</button>
     </section>
     <section class="row g-3">
         <!-- Report Net View -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card h-100">
-                <div class="card-header">Report a Ghost Net</div>
-                <div class="card-body">
-                    <form th:action="@{/report}" method="post">
-                        <div class="mb-2">
-                            <label>Location (GPS)</label>
-                            <input class="form-control" name="location"/>
-                        </div>
-                        <div class="mb-2">
-                            <label>Estimated Size</label>
-                            <select class="form-select" name="size">
-                                <option>Small</option>
-                                <option>Medium</option>
-                                <option>Large</option>
-                            </select>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" name="anonymous" id="anonymous">
-                            <label class="form-check-label" for="anonymous">Report anonymously</label>
-                        </div>
-                        <button class="btn btn-primary w-100" type="submit">Submit Report</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div th:replace="~{fragments/report :: report}"></div>
         <!-- Recoveries List View -->
         <div class="col-lg-3 col-md-6">
             <div class="card h-100">
