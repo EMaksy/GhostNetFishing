@@ -1,0 +1,284 @@
+/* ========= Basis ========= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #f3f6f9;
+    color: #1f2933;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ========= Navbar ========= */
+
+nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #d9e2ec;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+}
+
+.nav-link {
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    color: #52606d;
+}
+
+.nav-link:hover {
+    background-color: #e3f2fd;
+    color: #0b7285;
+}
+
+/* ========= Container / Grid ========= */
+
+.container-fluid {
+    padding: 1.5rem 2rem 2rem;
+}
+
+/* einfache „Bootstrap-artige“ Row/Cols ohne Framework */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.col-lg-3,
+.col-md-6 {
+    flex: 1 1 240px; /* min Breite der Karten */
+}
+
+/* ========= Hero / Headerbereich ========= */
+
+.hero {
+    position: relative;
+    padding: 3rem 2rem 3.5rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+/* Hintergrundbild + Overlay */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)),
+        url("../images/sea-1836480_1280.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(1.2);
+    z-index: -1;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========= Buttons ========= */
+
+button,
+.btn {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.btn-primary {
+    padding: 0.6rem 1.3rem;
+    border-radius: 999px;
+    background-color: #0b7285;
+    color: #ffffff;
+    margin-right: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #08606f;
+}
+
+.btn-outline-light {
+    padding: 0.6rem 1.3rem;
+    border-radius: 999px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #ffffff;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* kleine Buttons in Cards */
+.btn-sm {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn-success {
+    background-color: #2b9348;
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background-color: #21773a;
+}
+
+/* ========= Cards / Boxen ========= */
+
+.card {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e0e7ff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+}
+
+.card-body {
+    padding: 0.85rem 1rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* ========= Formulare ========= */
+
+form .mb-2,
+.mb-2,
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+    color: #52606d;
+}
+
+input.form-control,
+select.form-select {
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px solid #cbd2d9;
+    font-size: 0.9rem;
+}
+
+input.form-control:focus,
+select.form-select:focus {
+    outline: none;
+    border-color: #0b7285;
+    box-shadow: 0 0 0 1px rgba(11, 114, 133, 0.2);
+}
+
+/* Checkbox / Switch grob gestylt */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+}
+
+.form-check-input {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* kleine Status-Badges (z. B. Pending / Reported) */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-red {
+    background-color: #ffe3e3;
+    color: #c92a2a;
+}
+
+.badge-yellow {
+    background-color: #fff3bf;
+    color: #ad8b00;
+}
+
+.badge-green {
+    background-color: #d3f9d8;
+    color: #2b8a3e;
+}
+
+/* ========= Map-View ========= */
+
+#map {
+    border-radius: 0.75rem;
+    border: 1px solid #d9e2ec;
+}
+
+/* ========= Footer ========= */
+
+footer {
+    margin-top: 1.5rem;
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    color: #8291a4;
+    text-align: center;
+}
+
+/* ========= Responsiveness ========= */
+
+@media (max-width: 768px) {
+    nav.navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .container-fluid {
+        padding: 1rem;
+    }
+
+    .hero {
+        padding: 2.5rem 1rem 3rem;
+    }
+}

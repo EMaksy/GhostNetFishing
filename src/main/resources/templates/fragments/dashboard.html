@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="dashboard">
+    <!-- Hero-Bereich -->
+    <section class="hero text-center text-white mb-4">
+        <h1>Help Us Clear the Oceans.</h1>
+        <p>Report &amp; Recover Ghost Nets.</p>
+        <button class="btn btn-primary">Report a Net</button>
+        <button class="btn btn-outline-light">Join Recovery Effort</button>
+    </section>
+    <section class="row g-3">
+        <!-- Report Net View -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-header">Report a Ghost Net</div>
+                <div class="card-body">
+                    <form th:action="@{/report}" method="post">
+                        <div class="mb-2">
+                            <label>Location (GPS)</label>
+                            <input class="form-control" name="location"/>
+                        </div>
+                        <div class="mb-2">
+                            <label>Estimated Size</label>
+                            <select class="form-select" name="size">
+                                <option>Small</option>
+                                <option>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="anonymous" id="anonymous">
+                            <label class="form-check-label" for="anonymous">Report anonymously</label>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Submit Report</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Recoveries List View -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <span>Open Recoveries</span>
+                    <!-- Fake Map/List Toggle -->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Beispiel für dynamische Liste -->
+                    <div th:each="recovery : ${openRecoveries}" class="mb-3 border rounded p-2">
+                        <p>
+                            <strong th:text="${recovery.status}">Status: Reported</strong><br>
+                            Location: <span th:text="${recovery.lat}"></span>,
+                            <span th:text="${recovery.lon}"></span><br>
+                            Size: <span th:text="${recovery.size}"></span>
+                        </p>
+                        <button class="btn btn-sm btn-primary">Sign Up for Recovery</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Map View -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-header">Map View</div>
+                <div class="card-body">
+                    <!-- Für den Prototyp reicht erstmal ein Div -->
+                    <div id="map" style="height:250px; background:#e0e0e0;">
+                        <!-- Später Leaflet / OpenLayers / Google Maps einbinden -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- My Tasks View -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-header">My Tasks</div>
+                <div class="card-body">
+                    <div th:each="task : ${myTasks}" class="mb-3 border rounded p-2">
+                        <p>
+                            <strong th:text="${task.status}">Recovery Pending</strong><br>
+                            Location: <span th:text="${task.lat}"></span>,
+                            <span th:text="${task.lon}"></span><br>
+                            Size: <span th:text="${task.size}"></span>
+                        </p>
+                        <button class="btn btn-sm btn-success">Mark as Recovered</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

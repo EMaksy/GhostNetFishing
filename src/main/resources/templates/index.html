@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">GhostNetRadar</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container-fluid mt-4" th:replace="~{fragments/dashboard :: dashboard}"></main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
