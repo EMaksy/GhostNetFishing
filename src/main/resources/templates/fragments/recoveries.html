@@ -1,0 +1,26 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="recoveries"
+     class="col-lg-3 col-md-6">
+
+  <div class="card h-100">
+    <div class="card-header d-flex justify-content-between">
+      <span>Open Recoveries</span>
+      <!-- Fake Map/List Toggle -->
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox">
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- Beispiel für dynamische Liste -->
+      <div th:each="recovery : ${openRecoveries}" class="mb-3 border rounded p-2">
+        <p>
+          <strong th:text="${recovery.status}">Status: Reported</strong><br>
+          Location: <span th:text="${recovery.lat}"></span>,
+          <span th:text="${recovery.lon}"></span><br>
+          Size: <span th:text="${recovery.size}"></span>
+        </p>
+        <button class="btn btn-sm btn-primary">Sign Up for Recovery</button>
+      </div>
+    </div>
+  </div>
+</div>
