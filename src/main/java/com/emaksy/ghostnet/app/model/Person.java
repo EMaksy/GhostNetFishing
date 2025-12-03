@@ -1,6 +1,7 @@
 package com.emaksy.ghostnet.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "person")
@@ -10,17 +11,15 @@ public class Person {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
-  private String name;
-
-  @Column(nullable = true)
+  @NotBlank private String name;
+  private boolean anonymous;
   private String phone;
 
   public Person() {}
 
-  public Person(String name, String phone) {
+  public Person(String name, boolean anonymous) {
     this.name = name;
-    this.phone = phone;
+    this.anonymous = anonymous;
   }
 
   // Getter & Setter
@@ -42,5 +41,13 @@ public class Person {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public boolean isAnonymous() {
+    return anonymous;
+  }
+
+  public void setAnonymous(boolean anonymous) {
+    this.anonymous = anonymous;
   }
 }

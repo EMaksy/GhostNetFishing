@@ -1,6 +1,8 @@
 package com.emaksy.ghostnet.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,21 +12,22 @@ public class GhostNet {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String latitude;
-  private String longitude;
-  private String size;
+  @NotBlank private String latitude;
+  @NotBlank private String longitude;
+
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private GhostNetSize size;
 
   @Enumerated(EnumType.STRING)
   private GhostNetStatus status;
-
-  private boolean anonymous;
 
   @ManyToOne
   @JoinColumn(name = "reporter_id")
   private Person reporter;
 
-  @ManyToOne
-  @JoinColumn(name = "rescuer_id")
+  @OneToOne
+  @JoinColumn(name = "rescuer_id", unique = true)
   private Person rescuer;
 
   private LocalDateTime createdAt;
@@ -36,8 +39,18 @@ public class GhostNet {
     }
   }
 
-  // --- setters ---
+  public GhostNet() {}
 
+  public GhostNet(
+      String latitude, String longitude, GhostNetSize size, GhostNetStatus status, Person person) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.size = size;
+    this.status = status;
+    this.reporter = person;
+  }
+
+  // Getter & Setter
   public void setLatitude(String latitude) {
     this.latitude = latitude;
   }
@@ -46,16 +59,12 @@ public class GhostNet {
     this.longitude = longitude;
   }
 
-  public void setSize(String size) {
+  public void setSize(GhostNetSize size) {
     this.size = size;
   }
 
   public void setStatus(GhostNetStatus status) {
     this.status = status;
-  }
-
-  public void setAnonymous(boolean anonymous) {
-    this.anonymous = anonymous;
   }
 
   public void setReporter(Person reporter) {
