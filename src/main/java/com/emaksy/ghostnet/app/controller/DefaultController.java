@@ -10,6 +10,7 @@ public class DefaultController {
 
   @GetMapping("/")
   public String home(Model model) {
+    model.addAttribute("formAction", "/");
     if (!model.containsAttribute("reportForm")) {
       model.addAttribute("reportForm", new ReportForm());
     }

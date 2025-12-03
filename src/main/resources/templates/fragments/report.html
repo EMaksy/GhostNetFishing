@@ -11,41 +11,46 @@
 
     <div class="card-body">
       <!-- Bind the form DTO -->
-      <form th:action="@{/report}" th:object="${reportForm}" method="post">
+      <form th:action="@{${formAction}}" th:object="${reportForm}" method="post" novalidate>
 
         <div class="mb-2">
           <label class="form-label small">Latitude*</label>
-          <input class="form-control rounded-3" th:field="*{latitude}"/>
-          <div class="text-danger small" th:if="${#fields.hasErrors('latitude')}"
-               th:errors="*{latitude}"></div>
+          <input class="form-control rounded-3" th:field="*{latitude}" required/>
+          <div class="text-danger small"
+               th:if="${#fields.hasErrors('latitude')}"
+               th:errors="*{latitude}">Latitude is required</div>
         </div>
         <div class="mb-2">
           <label class="form-label small">Longitude*</label>
-          <input class="form-control rounded-3" th:field="*{longitude}"/>
-          <div class="text-danger small" th:if="${#fields.hasErrors('longitude')}"
-               th:errors="*{longitude}"></div>
+          <input class="form-control rounded-3" th:field="*{longitude}" required/>
+          <div class="text-danger small"
+               th:if="${#fields.hasErrors('longitude')}"
+               th:errors="*{longitude}">Longitude is required</div>
         </div>
         <div class="mb-2">
           <label class="form-label small">Estimated Size*</label>
-          <select class="form-select rounded-3" th:field="*{size}">
+          <select class="form-select rounded-3" th:field="*{size}" required>
             <option value="SMALL">Small ≤ 25m</option>
             <option value="MEDIUM">Medium ≤ 50m</option>
             <option value="LARGE">Large > 50m</option>
           </select>
-          <div class="text-danger small" th:if="${#fields.hasErrors('size')}"
-               th:errors="*{size}"></div>
+          <div class="text-danger small"
+               th:if="${#fields.hasErrors('size')}"
+               th:errors="*{size}">Size is required</div>
         </div>
         <div class="mb-2">
           <label class="form-label small">Your Name*</label>
-          <input class="form-control rounded-3" th:field="*{name}"/>
-          <div class="text-danger small" th:if="${#fields.hasErrors('name')}"
-               th:errors="*{name}"></div>
+          <input class="form-control rounded-3" th:field="*{name}" required/>
+          <div class="text-danger small"
+               th:if="${#fields.hasErrors('name')}"
+               th:errors="*{name}">Name is required</div>
         </div>
         <div class="mb-2">
           <label class="form-label small">Phone Number (optional if anonymous)</label>
           <input class="form-control rounded-3" th:field="*{phone}"/>
-          <div class="text-danger small" th:if="${#fields.hasErrors('phone')}"
-               th:errors="*{phone}"></div>
+          <div class="text-danger small"
+               th:if="${#fields.hasErrors('phone')}"
+               th:errors="*{phone}">Phone number is required when not reporting anonymously</div>
         </div>
         <div class="form-check mb-2">
           <label class="form-check-label small">Report anonymously</label>

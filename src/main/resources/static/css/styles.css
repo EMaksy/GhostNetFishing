@@ -211,6 +211,15 @@ select.form-select:focus {
     box-shadow: 0 0 0 1px rgba(11, 114, 133, 0.2);
 }
 
+.text-danger {
+    color: #dc3545;
+}
+
+.form-error {
+    color: #dc3545;
+    font-size: 0.8rem;
+}
+
 /* Checkbox / Switch grob gestylt */
 .form-check {
     display: flex;

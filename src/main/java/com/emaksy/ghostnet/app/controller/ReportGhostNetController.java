@@ -28,10 +28,16 @@ public class ReportGhostNetController {
 
   @GetMapping("/report")
   public String report(Model model) {
-    if (!model.containsAttribute("reportForm")) {
-      model.addAttribute("reportForm", new ReportForm());
-    }
+    model.addAttribute("formAction", "/report");
     return "pages/report-page";
+  }
+
+  @PostMapping("/")
+  public String submitReportFromHome(
+      @Valid @ModelAttribute("reportForm") ReportForm form,
+      BindingResult bindingResult,
+      Model model) {
+    return handleSubmit(form, bindingResult, model, false);
   }
 
   @PostMapping("/report")
@@ -39,9 +45,18 @@ public class ReportGhostNetController {
       @Valid @ModelAttribute("reportForm") ReportForm form,
       BindingResult bindingResult,
       Model model) {
+    return handleSubmit(form, bindingResult, model, true);
+  }
+
+  private String handleSubmit(
+      ReportForm form, BindingResult bindingResult, Model model, boolean isReportPage) {
+    if (!form.isAnonymous() && (form.getPhone() == null || form.getPhone().isBlank())) {
+      bindingResult.rejectValue("phone", "phone.required");
+    }
 
     if (bindingResult.hasErrors()) {
-      return "pages/report-page";
+      model.addAttribute("formAction", isReportPage ? "/report" : "/");
+      return isReportPage ? "pages/report-page" : "index";
     }
 
     boolean isAnonymous = form.isAnonymous();
