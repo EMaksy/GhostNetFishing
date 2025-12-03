@@ -1,15 +1,18 @@
 package com.emaksy.ghostnet.app.controller;
 
+import com.emaksy.ghostnet.app.controller.dto.ReportForm;
 import com.emaksy.ghostnet.app.model.GhostNet;
-import com.emaksy.ghostnet.app.model.GhostNetSize;
 import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.model.Person;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import com.emaksy.ghostnet.app.repository.PersonRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ReportGhostNetController {
@@ -24,44 +27,38 @@ public class ReportGhostNetController {
   }
 
   @GetMapping("/report")
-  public String report() {
+  public String report(Model model) {
+    if (!model.containsAttribute("reportForm")) {
+      model.addAttribute("reportForm", new ReportForm());
+    }
     return "pages/report-page";
   }
 
   @PostMapping("/report")
   public String submitReport(
-      @RequestParam String latitude,
-      @RequestParam String longitude,
-      @RequestParam GhostNetSize size,
-      @RequestParam String name,
-      @RequestParam(required = false) String phone,
-      @RequestParam(required = false) Boolean anonymous) {
+      @Valid @ModelAttribute("reportForm") ReportForm form,
+      BindingResult bindingResult,
+      Model model) {
 
-    System.out.println(latitude);
-    System.out.println(longitude);
-    System.out.println(size);
-    System.out.println(name);
-    System.out.println(phone);
-    System.out.println(anonymous);
-
-    boolean isAnonymous = Boolean.TRUE.equals(anonymous);
-
-    if (name == null || name.isBlank()) {
-      throw new IllegalArgumentException("Name is required");
+    if (bindingResult.hasErrors()) {
+      return "pages/report-page";
     }
 
-    if (!isAnonymous && (phone == null || phone.isBlank())) {
-      throw new IllegalArgumentException("Phone number is required for non-anonymous reports");
-    }
+    boolean isAnonymous = form.isAnonymous();
 
-    Person person = new Person(name, isAnonymous);
+    Person person = new Person(form.getName(), isAnonymous);
     if (!isAnonymous) {
-      person.setPhone(phone);
+      person.setPhone(form.getPhone());
     }
     personRepository.save(person);
 
-    GhostNetStatus ghostNetStatus = GhostNetStatus.REPORTED;
-    GhostNet ghostNet = new GhostNet(latitude, longitude, size, ghostNetStatus, person);
+    GhostNet ghostNet =
+        new GhostNet(
+            form.getLatitude(),
+            form.getLongitude(),
+            form.getSize(),
+            GhostNetStatus.REPORTED,
+            person);
     ghostNetRepository.save(ghostNet);
 
     return "redirect:/";
