@@ -1,23 +1,44 @@
 <div xmlns:th="http://www.thymeleaf.org"
      th:fragment="recoveries"
-     class="col-lg-3 col-md-6">
+     class="recoveries-fragment">
 
-  <div class="card h-100">
-    <div class="card-header d-flex justify-content-between">
+  <div class="recovery-panel card">
+    <div class="recovery-panel__header">
       <span>Open Recoveries</span>
     </div>
-    <div class="card-body">
-      <div th:each="recovery : ${openRecoveries}" class="mb-3 border rounded p-2">
-        <p class="mb-1">
-          <strong>Status:</strong> <span th:text="${recovery.status}">Reported</span><br>
-          Location: <span th:text="${recovery.latitude}"></span>,
-          <span th:text="${recovery.longitude}"></span><br>
-          Size: <span th:text="${recovery.size}"></span>
-        </p>
-        <p class="mb-0">
-          Reporter:
-          <span th:text="${recovery.reporter != null ? recovery.reporter.name : 'Anonymous'}"></span>
-        </p>
+
+    <div class="recovery-panel__list">
+      <div th:each="recovery : ${openRecoveries}"
+           class="recovery-card card shadow-sm">
+        <div class="recovery-card__status">
+          <span class="label">Status:</span>
+          <span class="badge"
+                th:classappend="${#strings.toLowerCase(recovery.status?.name())}"
+                th:text="${recovery.status}">REPORTED</span>
+        </div>
+        <div class="recovery-card__body">
+          <div class="row-line">
+            <span class="label">Location:</span>
+            <span th:text="${recovery.latitude}">Lat: </span>,
+            <span th:text="${recovery.longitude}">Lon: </span>
+          </div>
+          <div class="row-line">
+            <span class="label">Size:</span>
+            <span th:text="${recovery.size}">LARGE</span>
+          </div>
+          <div class="row-line" th:if="${recovery.createdAt != null}">
+            <span class="label">Reported on:</span>
+            <span th:text="${#temporals.format(recovery.createdAt, 'yyyy-MM-dd HH:mm')}">2025-05-15 10:30</span>
+          </div>
+          <div class="row-line">
+            <span class="label">Reporter:</span>
+            <span th:text="${recovery.reporter != null ? recovery.reporter.name : 'Anonymous'}">Anonymous</span>
+          </div>
+          <div class="row-line" th:if="${recovery.rescuer != null}">
+            <span class="label">Rescuer:</span>
+            <span th:text="${recovery.rescuer.name}">Rescuer</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
