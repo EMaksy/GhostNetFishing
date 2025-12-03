@@ -14,29 +14,34 @@
           <span class="label">Status:</span>
           <span class="badge"
                 th:classappend="${#strings.toLowerCase(recovery.status?.name())}"
-                th:text="${recovery.status}">REPORTED</span>
+                th:text="${recovery.status}"></span>
         </div>
         <div class="recovery-card__body">
           <div class="row-line">
             <span class="label">Location:</span>
-            <span th:text="${recovery.latitude}">Lat: </span>,
-            <span th:text="${recovery.longitude}">Lon: </span>
+            <span th:text="${recovery.latitude}"></span>,
+            <span th:text="${recovery.longitude}"></span>
           </div>
           <div class="row-line">
             <span class="label">Size:</span>
-            <span th:text="${recovery.size}">LARGE</span>
+            <span th:text="${recovery.size}"></span>
           </div>
           <div class="row-line" th:if="${recovery.createdAt != null}">
             <span class="label">Reported on:</span>
-            <span th:text="${#temporals.format(recovery.createdAt, 'yyyy-MM-dd HH:mm')}">2025-05-15 10:30</span>
+            <span th:text="${#temporals.format(recovery.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
           </div>
           <div class="row-line">
             <span class="label">Reporter:</span>
-            <span th:text="${recovery.reporter != null ? recovery.reporter.name : 'Anonymous'}">Anonymous</span>
+            <span th:text="${recovery.reporter != null ? recovery.reporter.name : 'Anonymous'}"></span>
+          </div>
+          <div class="row-line"
+               th:if="${recovery.reporter != null and recovery.reporter.phone != null and !#strings.isEmpty(recovery.reporter.phone)}">
+            <span class="label">Reporter phone:</span>
+            <span th:text="${recovery.reporter.phone}"></span>
           </div>
           <div class="row-line" th:if="${recovery.rescuer != null}">
             <span class="label">Rescuer:</span>
-            <span th:text="${recovery.rescuer.name}">Rescuer</span>
+            <span th:text="${recovery.rescuer.name}"></span>
           </div>
         </div>
       </div>
