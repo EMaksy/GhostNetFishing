@@ -55,23 +55,51 @@ public class GhostNet {
     this.latitude = latitude;
   }
 
+  public String getLatitude() {
+    return latitude;
+  }
+
   public void setLongitude(String longitude) {
     this.longitude = longitude;
+  }
+
+  public String getLongitude() {
+    return longitude;
   }
 
   public void setSize(GhostNetSize size) {
     this.size = size;
   }
 
+  public GhostNetSize getSize() {
+    return size;
+  }
+
   public void setStatus(GhostNetStatus status) {
     this.status = status;
+  }
+
+  public GhostNetStatus getStatus() {
+    return status;
   }
 
   public void setReporter(Person reporter) {
     this.reporter = reporter;
   }
 
+  public Person getReporter() {
+    return reporter;
+  }
+
   public void setRescuer(Person rescuer) {
     this.rescuer = rescuer;
+  }
+
+  public Person getRescuer() {
+    return rescuer;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 }
