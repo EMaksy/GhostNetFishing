@@ -22,20 +22,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6" sec:authorize="isAuthenticated()">
-            <div class="card h-100">
-                <div class="card-header">My Tasks</div>
-                <div class="card-body">
-                    <div th:each="task : ${myTasks}" class="mb-3 border rounded p-2">
-                        <p>
-                            <strong th:text="${task.status}">Recovery Pending</strong><br>
-                            Location: <span th:text="${task.lat}"></span>,
-                            <span th:text="${task.lon}"></span><br>
-                            Size: <span th:text="${task.size}"></span>
-                        </p>
-                        <button class="btn btn-sm btn-success">Mark as Recovered</button>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="~{fragments/my-tasks :: my-tasks}"></div>
         </div>
     </section>
 

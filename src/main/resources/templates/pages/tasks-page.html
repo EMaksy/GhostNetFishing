@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>My Tasks</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="container-fluid mt-4">
+    <section class="row g-3" sec:authorize="isAuthenticated()">
+        <div class="col-lg-6 col-md-12" th:replace="~{fragments/my-tasks :: my-tasks}"></div>
+    </section>
+    <section sec:authorize="!isAuthenticated()">
+        <p>Please sign in to view your tasks. <a th:href="@{/login}">Sign in</a></p>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

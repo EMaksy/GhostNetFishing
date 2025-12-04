@@ -2,10 +2,14 @@
      th:fragment="recoveries"
      class="recoveries-fragment">
 
-  <div class="recovery-panel card">
-    <div class="recovery-panel__header">
-      <span>Open Recoveries</span>
-    </div>
+    <div class="recovery-panel card">
+      <div class="recovery-panel__header">
+        <span>Open Recoveries</span>
+        <div class="filter-links">
+          <a th:href="@{${recoveriesBase}(onlyReported=false)}" th:classappend="${!onlyReported} ? 'active'">All</a>
+          <a th:href="@{${recoveriesBase}(onlyReported=true)}" th:classappend="${onlyReported} ? 'active'">Reported</a>
+        </div>
+      </div>
 
     <div class="recovery-panel__list">
       <div th:each="recovery : ${openRecoveries}"
