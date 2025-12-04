@@ -219,12 +219,22 @@ button,
 
 .map-panel {
     width: 100%;
-    height: clamp(320px, 60vh, 700px);
+    height: clamp(320px, 60vh, 800px);
     min-height: 320px;
     background: #e0e0e0;
     border-radius: 0.5rem;
     position: relative;
     flex: 1;
+}
+
+.map-panel.map-panel-large {
+    height: clamp(500px, 80vh, 1100px);
+    min-height: 500px;
+}
+
+.map-panel.map-panel-small {
+    height: clamp(220px, 40vh, 360px);
+    min-height: 220px;
 }
 
 .recovery-panel {
