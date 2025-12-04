@@ -1,5 +1,6 @@
 package com.emaksy.ghostnet.app.controller;
 
+import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import com.emaksy.ghostnet.app.service.MyTasksService;
 import org.springframework.security.core.Authentication;
@@ -23,17 +24,29 @@ public class DefaultController {
   public String home(
       Model model,
       Authentication authentication,
-      @RequestParam(name = "onlyReported", defaultValue = "true") boolean onlyReported) {
+      @RequestParam(name = "status", required = false) String status) {
     model.addAttribute("formAction", "/");
-    model.addAttribute(
-        "openRecoveries",
-        onlyReported
-            ? ghostNetRepository.findByStatus(com.emaksy.ghostnet.app.model.GhostNetStatus.REPORTED)
-            : ghostNetRepository.findAll());
-    model.addAttribute("onlyReported", onlyReported);
+    GhostNetStatus selected = parseStatus(status);
+    if (selected != null) {
+      model.addAttribute("openRecoveries", ghostNetRepository.findByStatus(selected));
+    } else {
+      model.addAttribute("openRecoveries", ghostNetRepository.findAll());
+    }
+    model.addAttribute("selectedStatus", selected != null ? selected.name() : "ALL");
     model.addAttribute("recoveriesBase", "/");
     model.addAttribute("myTasks", myTasksService.activeTasks(authentication));
 
     return "index";
+  }
+
+  private GhostNetStatus parseStatus(String status) {
+    if (status == null || status.isBlank() || "ALL".equalsIgnoreCase(status)) {
+      return null;
+    }
+    try {
+      return GhostNetStatus.valueOf(status);
+    } catch (IllegalArgumentException ex) {
+      return null;
+    }
   }
 }

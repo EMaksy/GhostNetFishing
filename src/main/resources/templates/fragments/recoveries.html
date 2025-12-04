@@ -6,8 +6,11 @@
       <div class="recovery-panel__header">
         <span>Open Recoveries</span>
         <div class="filter-links">
-          <a th:href="@{${recoveriesBase}(onlyReported=false)}" th:classappend="${!onlyReported} ? 'active'">All</a>
-          <a th:href="@{${recoveriesBase}(onlyReported=true)}" th:classappend="${onlyReported} ? 'active'">Reported</a>
+          <a th:href="@{${recoveriesBase}(status=ALL)}" th:classappend="${selectedStatus == 'ALL'} ? 'active'">All</a>
+          <a th:href="@{${recoveriesBase}(status=REPORTED)}" th:classappend="${selectedStatus == 'REPORTED'} ? 'active'">Reported</a>
+          <a th:href="@{${recoveriesBase}(status=RESCUE_IMMINENT)}" th:classappend="${selectedStatus == 'RESCUE_IMMINENT'} ? 'active'">Rescue imminent</a>
+          <a th:href="@{${recoveriesBase}(status=SAVED)}" th:classappend="${selectedStatus == 'SAVED'} ? 'active'">Saved</a>
+          <a th:href="@{${recoveriesBase}(status=MISSED)}" th:classappend="${selectedStatus == 'MISSED'} ? 'active'">Missing</a>
         </div>
       </div>
 
