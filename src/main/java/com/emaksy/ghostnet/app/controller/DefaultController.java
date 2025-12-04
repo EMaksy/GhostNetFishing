@@ -1,6 +1,5 @@
 package com.emaksy.ghostnet.app.controller;
 
-import com.emaksy.ghostnet.app.controller.dto.ReportForm;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

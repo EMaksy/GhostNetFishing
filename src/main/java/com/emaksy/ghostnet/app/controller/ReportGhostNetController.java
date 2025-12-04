@@ -55,6 +55,7 @@ public class ReportGhostNetController {
     }
 
     if (bindingResult.hasErrors()) {
+      model.addAttribute("openRecoveries", ghostNetRepository.findAll());
       model.addAttribute("formAction", isReportPage ? "/report" : "/");
       return isReportPage ? "pages/report-page" : "index";
     }

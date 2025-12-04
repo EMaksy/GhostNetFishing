@@ -17,6 +17,11 @@ a {
     color: inherit;
 }
 
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
 /* ========= Navbar ========= */
 
 nav.navbar {
@@ -57,7 +62,6 @@ nav.navbar {
     padding: 1.5rem 2rem 2rem;
 }
 
-/* einfache „Bootstrap-artige“ Row/Cols ohne Framework */
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -80,7 +84,6 @@ nav.navbar {
     flex: 1 1 240px; /* min Breite der Karten */
 }
 
-/* ========= Hero / Headerbereich ========= */
 
 .hero {
     position: relative;
@@ -92,7 +95,7 @@ nav.navbar {
     color: #ffffff;
 }
 
-/* Hintergrundbild + Overlay */
+
 .hero::before {
     content: "";
     position: absolute;

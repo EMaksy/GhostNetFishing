@@ -12,20 +12,16 @@
     <section class="row g-3">
         <div th:replace="~{fragments/report :: report}"></div>
         <div class="col-lg-6 col-md-12" th:insert="~{fragments/recoveries :: recoveries}"></div>
-        <!-- Map View -->
         <div class="col-lg-3 col-md-6">
             <div class="card h-100">
                 <div class="card-header">Map View</div>
                 <div class="card-body">
-                    <!-- Für den Prototyp reicht erstmal ein Div -->
                     <div id="map" style="height:250px; background:#e0e0e0;">
-                        <!-- Später Leaflet / OpenLayers / Google Maps einbinden -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- My Tasks View -->
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-3 col-md-6" sec:authorize="isAuthenticated()">
             <div class="card h-100">
                 <div class="card-header">My Tasks</div>
                 <div class="card-body">

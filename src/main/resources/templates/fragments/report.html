@@ -12,6 +12,7 @@
     <div class="card-body">
       <!-- Bind the form DTO -->
       <form th:action="@{${formAction}}" th:object="${reportForm}" method="post" novalidate>
+        <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
 
         <div class="mb-2">
           <label class="form-label small">Latitude*</label>
