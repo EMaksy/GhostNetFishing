@@ -26,8 +26,8 @@ public class GhostNet {
   @JoinColumn(name = "reporter_id")
   private Person reporter;
 
-  @OneToOne
-  @JoinColumn(name = "rescuer_id", unique = true)
+  @ManyToOne
+  @JoinColumn(name = "rescuer_id")
   private Person rescuer;
 
   private LocalDateTime createdAt;
@@ -101,5 +101,9 @@ public class GhostNet {
 
   public LocalDateTime getCreatedAt() {
     return createdAt;
+  }
+
+  public Long getId() {
+    return id;
   }
 }
