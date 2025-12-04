@@ -10,7 +10,7 @@
 
 <main class="container-fluid mt-4">
     <section class="row g-3" sec:authorize="isAuthenticated()">
-        <div class="col-lg-6 col-md-12" th:replace="~{fragments/my-tasks :: my-tasks}"></div>
+        <div class="col-12" th:insert="~{fragments/my-tasks :: my-tasks}"></div>
     </section>
     <section sec:authorize="!isAuthenticated()">
         <p>Please sign in to view your tasks. <a th:href="@{/login}">Sign in</a></p>

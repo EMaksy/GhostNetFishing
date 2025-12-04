@@ -68,6 +68,10 @@ nav.navbar {
     gap: 1rem;
 }
 
+.g-3 {
+    gap: 1rem;
+}
+
 .col-12,
 .col-md-12 {
     flex: 1 1 100%;
@@ -81,7 +85,12 @@ nav.navbar {
 
 .col-lg-3,
 .col-md-6 {
-    flex: 1 1 240px; /* min Breite der Karten */
+    flex: 1 1 240px; 
+}
+
+.col-lg-4 {
+    flex: 1 1 33%;
+    min-width: 280px;
 }
 
 
@@ -340,7 +349,6 @@ select.form-select:focus {
     height: 1rem;
 }
 
-/* kleine Status-Badges (z. B. Pending / Reported) */
 .badge {
     display: inline-block;
     padding: 0.2rem 0.6rem;

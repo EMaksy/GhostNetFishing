@@ -12,17 +12,9 @@
     <section class="row g-3">
         <div th:replace="~{fragments/report :: report}"></div>
         <div class="col-lg-6 col-md-12" th:insert="~{fragments/recoveries :: recoveries}"></div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card h-100">
-                <div class="card-header">Map View</div>
-                <div class="card-body">
-                    <div id="map" style="height:250px; background:#e0e0e0;">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div th:replace="~{fragments/map-view :: map-view}"></div>
         <div class="col-lg-3 col-md-6" sec:authorize="isAuthenticated()">
-            <div th:replace="~{fragments/my-tasks :: my-tasks}"></div>
+            <div th:insert="~{fragments/my-tasks :: my-tasks}"></div>
         </div>
     </section>
 
