@@ -12,7 +12,6 @@
     <section class="row g-3">
         <div th:replace="~{fragments/report :: report}"></div>
         <div class="col-lg-6 col-md-12" th:insert="~{fragments/recoveries :: recoveries}"></div>
-        <div th:replace="~{fragments/map-view :: map-view}"></div>
         <div class="col-lg-3 col-md-6" sec:authorize="isAuthenticated()">
             <div th:insert="~{fragments/my-tasks :: my-tasks}"></div>
         </div>

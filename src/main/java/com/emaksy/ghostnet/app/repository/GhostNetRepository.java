@@ -15,4 +15,6 @@ public interface GhostNetRepository extends JpaRepository<GhostNet, Long> {
   List<GhostNet> findByRescuerAndStatusNotIn(Person rescuer, Collection<GhostNetStatus> statuses);
 
   List<GhostNet> findByStatus(GhostNetStatus status);
+
+  List<GhostNet> findByStatusIn(Collection<GhostNetStatus> statuses);
 }

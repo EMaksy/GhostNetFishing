@@ -212,6 +212,21 @@ button,
     font-size: 0.9rem;
 }
 
+.map-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.map-panel {
+    width: 100%;
+    height: clamp(320px, 60vh, 700px);
+    min-height: 320px;
+    background: #e0e0e0;
+    border-radius: 0.5rem;
+    position: relative;
+    flex: 1;
+}
+
 .recovery-panel {
     border: 1px solid #e3e6f0;
     width: 100%;

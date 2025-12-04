@@ -5,10 +5,62 @@
 <div th:fragment="map-view" class="col-lg-3 col-md-6">
     <div class="card h-100">
         <div class="card-header">Map View</div>
-        <div class="card-body">
-            <div id="map" style="height:250px; background:#e0e0e0;">
-                <!-- Map placeholder -->
+        <div class="card-body map-body">
+            <!-- Load Leaflet from WebJar -->
+            <link rel="stylesheet" th:href="@{/webjars/leaflet/1.9.4/dist/leaflet.css}" />
+            <div id="map" class="map-panel" style="height:60vh; min-height:360px; background:#e0e0e0; border-radius: 0.5rem; position: relative; flex: 1;">
+                <div id="map-fallback" class="text-muted small p-2" style="display:none; position:absolute; inset:0; padding:0.5rem;">
+                    Map requires Leaflet assets and tile access. If offline, ensure WebJars are resolved or allow network.
+                </div>
             </div>
+            <script th:src="@{/webjars/leaflet/1.9.4/dist/leaflet.js}"></script>
+            <script th:if="${openRecoveries != null}" th:inline="javascript">
+                /*<![CDATA[*/
+                document.addEventListener('DOMContentLoaded', function () {
+                    if (!window.L) {
+                        var fallback = document.getElementById('map-fallback');
+                        if (fallback) { fallback.style.display = 'block'; }
+                        return;
+                    }
+                    var map = L.map('map').setView([0, 0], 2);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    var points = /*[[${openRecoveries}]]*/ [];
+                    var bounds = [];
+                    points.forEach(function(p) {
+                        var lat = parseFloat(p.latitude);
+                        var lon = parseFloat(p.longitude);
+                        if (isNaN(lat) || isNaN(lon)) { return; }
+                        var marker = L.marker([lat, lon], {
+                            icon: L.icon({
+                                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                                iconAnchor: [12, 41],
+                                popupAnchor: [0, -35]
+                            })
+                        }).addTo(map);
+                        var popupHtml =
+                            '<div><strong>Status:</strong> ' + (p.status || '') +
+                            '<br><strong>Size:</strong> ' + (p.size || '') +
+                            '<br><strong>Location:</strong> ' + p.latitude + ', ' + p.longitude +
+                            '</div>';
+                        marker.bindPopup(popupHtml);
+                        marker.bindTooltip(popupHtml);
+                        bounds.push([lat, lon]);
+                    });
+                    if (bounds.length) {
+                        map.fitBounds(bounds, {padding: [20, 20]});
+                    } else {
+                        var fallback = document.getElementById('map-fallback');
+                        if (fallback) { fallback.style.display = 'block'; fallback.innerText = 'No nets to display.'; }
+                    }
+                });
+                /*]]>*/
+            </script>
         </div>
     </div>
 </div>

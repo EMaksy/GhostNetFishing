@@ -3,12 +3,21 @@ package com.emaksy.ghostnet.app.controller.dto;
 import com.emaksy.ghostnet.app.model.GhostNetSize;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class ReportForm {
 
-  @NotBlank private String latitude;
+  @NotBlank
+  @Pattern(
+      regexp = "^-?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)$",
+      message = "Latitude must be between -90 and 90")
+  private String latitude;
 
-  @NotBlank private String longitude;
+  @NotBlank
+  @Pattern(
+      regexp = "^-?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$",
+      message = "Longitude must be between -180 and 180")
+  private String longitude;
 
   @NotNull private GhostNetSize size;
 

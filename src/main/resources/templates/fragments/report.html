@@ -16,17 +16,60 @@
 
         <div class="mb-2">
           <label class="form-label small">Latitude*</label>
-          <input class="form-control rounded-3" th:field="*{latitude}" required/>
+          <input id="lat-input" class="form-control rounded-3" th:field="*{latitude}" type="number" step="0.0001" min="-90" max="90" placeholder="52.5200" required/>
           <div class="text-danger small"
                th:if="${#fields.hasErrors('latitude')}"
                th:errors="*{latitude}">Latitude is required</div>
+          <div class="form-text small text-muted">Use decimal degrees, between -90 and 90.</div>
         </div>
         <div class="mb-2">
           <label class="form-label small">Longitude*</label>
-          <input class="form-control rounded-3" th:field="*{longitude}" required/>
+          <input id="lon-input" class="form-control rounded-3" th:field="*{longitude}" type="number" step="0.0001" min="-180" max="180" placeholder="13.4050" required/>
           <div class="text-danger small"
                th:if="${#fields.hasErrors('longitude')}"
                th:errors="*{longitude}">Longitude is required</div>
+          <div class="form-text small text-muted">Use decimal degrees, between -180 and 180.</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small">Pick on map (click to set coordinates)</label>
+          <link rel="stylesheet" th:href="@{/webjars/leaflet/1.9.4/dist/leaflet.css}" />
+          <div id="report-map" style="height:320px; background:#e0e0e0; border-radius:0.5rem;"></div>
+          <script th:src="@{/webjars/leaflet/1.9.4/dist/leaflet.js}"></script>
+          <script>
+            (function() {
+              const latEl = document.getElementById('lat-input');
+              const lonEl = document.getElementById('lon-input');
+              if (!latEl || !lonEl) return;
+              document.addEventListener('DOMContentLoaded', function() {
+                if (!window.L) return;
+                const map = L.map('report-map').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  maxZoom: 18,
+                  attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+                let marker = null;
+                function updateMarker(lat, lon) {
+                  if (marker) { marker.remove(); }
+                  marker = L.marker([lat, lon]).addTo(map);
+                  map.setView([lat, lon], 6);
+                }
+                map.on('click', function(e) {
+                  const lat = e.latlng.lat.toFixed(6);
+                  const lon = e.latlng.lng.toFixed(6);
+                  latEl.value = lat;
+                  lonEl.value = lon;
+                  updateMarker(lat, lon);
+                });
+                // initialize marker if values present
+                const initLat = parseFloat(latEl.value);
+                const initLon = parseFloat(lonEl.value);
+                if (!isNaN(initLat) && !isNaN(initLon)) {
+                  updateMarker(initLat, initLon);
+                }
+              });
+            })();
+          </script>
         </div>
         <div class="mb-2">
           <label class="form-label small">Estimated Size*</label>
