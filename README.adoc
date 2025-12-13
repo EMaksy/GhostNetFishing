@@ -25,8 +25,8 @@ The application allows anonymous reporting, structured recovery coordination, an
 ** GPS coordinates
 ** Estimated size
 ** Initial status
-* Anonymous reporting is allowed
-* Non-anonymous reports can later be marked as *missing*
+* A name is required to file a report; phone is optional when reporting anonymously
+* Only a signed-in, named, contactable person can mark a net as *missing* (anonymous reports cannot)
 
 === Recovery Coordination
 
@@ -154,7 +154,7 @@ docker compose up -d
 
 [source,bash]
 ----
-./mvnw spring-boot:run
+mvn spring-boot:run
 ----
 
 Dependencies will be downloaded on the first run.
@@ -171,7 +171,7 @@ http://localhost:8080
 
 [source,bash]
 ----
-./mvnw clean package
+mvn clean package
 java -jar target/ghost-net-app-0.0.1-SNAPSHOT.jar
 ----
 
