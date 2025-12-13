@@ -1,1 +1,188 @@
-# GhostNetFishing
+= GhostNetFishing
+:toc:
+:toclevels: 3
+:icons: font
+:source-highlighter: rouge
+
+Simple Spring Boot service for reporting and recovering *ghost nets* (lost or abandoned fishing nets).
+
+== Overview
+
+GhostNetFishing helps coordinate the reporting and recovery of ghost nets, which pose serious environmental risks.
+The application allows anonymous reporting, structured recovery coordination, and lifecycle tracking of each reported net.
+
+== Goals
+
+* Make reporting ghost nets easy and accessible
+* Coordinate recovery efforts efficiently
+* Track ghost nets from report to recovery or confirmation of absence
+
+== Features
+
+=== Reporting
+
+* Report ghost nets with:
+** GPS coordinates
+** Estimated size
+** Initial status
+* Anonymous reporting is allowed
+* Non-anonymous reports can later be marked as *missing*
+
+=== Recovery Coordination
+
+* Salvaging persons can:
+** View ghost nets pending recovery
+** Claim a ghost net for recovery (one salvor per net)
+** Mark a ghost net as recovered
+
+=== Visibility
+* View unrecovered ghost nets on a map
+* See which salvor is assigned to which net
+
+== Domain Model
+
+=== Ghost Net
+
+A ghost net consists of:
+
+* GPS coordinates (latitude and longitude)
+* Estimated size
+* Status
+* Assigned salvor
+
+=== Status Lifecycle
+
+* *REPORTED* — Net has been reported
+* *RECOVERY_PLANNED* — A salvor has claimed the net
+* *RECOVERED* — Net has been successfully recovered
+* *MISSING* — Net could not be found at the reported location
+  (requires a non-anonymous report)
+
+=== Persons
+
+==== Reporting Person
+
+* Name and phone number (optional)
+* May remain anonymous
+
+==== Salvaging Person
+
+* Name and phone number
+* Can work on multiple ghost nets concurrently
+* Each ghost net can have at most one salvor
+
+== User Stories (MoSCoW)
+
+=== MUST
+
+. As a reporting person, I want to report ghost nets (optionally anonymously).
+. As a salvaging person, I want to sign up to recover a ghost net.
+. As a salvaging person, I want to see ghost nets that still need recovery.
+. As a salvaging person, I want to mark ghost nets as recovered.
+
+=== COULD
+
+. As a salvaging person, I want to see unrecovered ghost nets on a map.
+. As a salvaging person, I want to see who is planning to recover which nets.
+
+== User Stories Implementation
+
+* *Reporting (anonymous allowed)* +
+  Public forms on `/` and `/report` with GPS validation. +
+  Phone number is required only for non-anonymous reports.
+
+* *Sign up for recovery* +
+  Authenticated users can claim a ghost net. +
+  The system enforces one salvor per net.
+
+* *View nets to recover* +
+  Open nets are listed on `/` and `/recoveries` with status filters.
+
+* *Mark as recovered* +
+  Only the assigned salvor can mark a net as `RECOVERED`.
+
+* *Map view (optional)* +
+  Leaflet-based map available on `/` and `/recoveries`. +
+  Can be switched to Google Maps with an API key.
+
+* *Coordination view (optional)* +
+  Listings show the assigned salvor’s name. +
+  Reassignment is manual (unassign → reassign).
+
+== Technology Stack
+
+* Java 21
+* Spring Boot 3
+** Spring Web
+** Spring Data JPA
+** Spring Security
+** Validation
+** Thymeleaf
+* MySQL (via Docker Compose)
+* Maven Wrapper
+
+== Prerequisites
+
+* Java 21 (JDK)
+* Docker and Docker Compose
+* Bash-compatible shell
+
+== Configuration
+
+Default database configuration in `src/main/resources/application.properties`:
+
+[source,properties]
+----
+spring.datasource.url=jdbc:mysql://localhost:3306/mydatabase
+spring.datasource.username=myuser
+spring.datasource.password=secret
+----
+
+Configuration can be overridden via environment variables or by editing
+`application.properties`.
+
+== Running Locally
+
+=== 1. Start the Database
+
+[source,bash]
+----
+docker compose up -d
+----
+
+=== 2. Run the Application
+
+[source,bash]
+----
+./mvnw spring-boot:run
+----
+
+Dependencies will be downloaded on the first run.
+
+=== 3. Access the Application
+
+Open your browser at:
+
+----
+http://localhost:8080
+----
+
+== Building a Runnable JAR
+
+[source,bash]
+----
+./mvnw clean package
+java -jar target/ghost-net-app-0.0.1-SNAPSHOT.jar
+----
+
+== Development Notes
+
+* Database schema is managed by Spring Data JPA using `ddl-auto=update`
+  for development.
+* Use proper database migrations (e.g. Flyway or Liquibase) for production.
+* SQL logging can be enabled via:
+
+[source,properties]
+----
+spring.jpa.show-sql=true
+----
