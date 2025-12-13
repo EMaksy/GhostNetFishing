@@ -46,6 +46,11 @@ public class DefaultController {
     return "index";
   }
 
+  @GetMapping("/home")
+  public String redirectHome() {
+    return "redirect:/";
+  }
+
   private GhostNetStatus parseStatus(String status) {
     if (status == null || status.isBlank() || "ALL".equalsIgnoreCase(status)) {
       return null;

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MyTasksService {
 
   private static final Set<GhostNetStatus> RESOLVED_STATUSES =
-      Set.of(GhostNetStatus.SAVED, GhostNetStatus.MISSED);
+      Set.of(GhostNetStatus.RECOVERED, GhostNetStatus.MISSING);
 
   private final GhostNetRepository ghostNetRepository;
   private final AppUserRepository appUserRepository;

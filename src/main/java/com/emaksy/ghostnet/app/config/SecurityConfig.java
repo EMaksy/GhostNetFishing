@@ -24,6 +24,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/", "/report", "/recoveries", "/map")
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/home")
+                    .permitAll()
                     .requestMatchers(HttpMethod.POST, "/", "/report", "/signup")
                     .permitAll()
                     .anyRequest()

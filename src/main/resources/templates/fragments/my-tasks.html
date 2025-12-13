@@ -33,13 +33,13 @@
                             <div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
                                 <form th:action="@{/recoveries/{id}/mark-recovered(id=${task.id})}"
                                       method="post"
-                                      th:if="${task.status == T(com.emaksy.ghostnet.app.model.GhostNetStatus).RESCUE_IMMINENT}">
+                                      th:if="${task.status == T(com.emaksy.ghostnet.app.model.GhostNetStatus).RECOVERY_PLANNED}">
                                     <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
                                     <button class="btn btn-sm btn-success" type="submit">Mark as Recovered</button>
                                 </form>
                                 <form th:action="@{/recoveries/{id}/mark-missed(id=${task.id})}"
                                       method="post"
-                                      th:if="${task.status != T(com.emaksy.ghostnet.app.model.GhostNetStatus).SAVED}">
+                                      th:if="${task.status != T(com.emaksy.ghostnet.app.model.GhostNetStatus).RECOVERED}">
                                     <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
                                     <button class="btn btn-sm btn-danger" type="submit">Mark as Missing</button>
                                 </form>

@@ -3,6 +3,7 @@ package com.emaksy.ghostnet.app.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,8 +13,17 @@ public class GhostNet {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank private String latitude;
-  @NotBlank private String longitude;
+  @NotBlank
+  @Pattern(
+      regexp = "^-?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)$",
+      message = "Latitude must use decimal degrees between -90 and 90.")
+  private String latitude;
+
+  @NotBlank
+  @Pattern(
+      regexp = "^-?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$",
+      message = "Longitude must use decimal degrees between -180 and 180.")
+  private String longitude;
 
   @NotNull
   @Enumerated(EnumType.STRING)

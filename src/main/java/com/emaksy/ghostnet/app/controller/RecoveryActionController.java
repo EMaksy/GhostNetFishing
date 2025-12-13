@@ -64,7 +64,7 @@ public class RecoveryActionController {
     }
 
     net.setRescuer(rescuer);
-    net.setStatus(GhostNetStatus.RESCUE_IMMINENT);
+    net.setStatus(GhostNetStatus.RECOVERY_PLANNED);
     ghostNetRepository.save(net);
 
     redirectAttributes.addFlashAttribute("successMessage", "You joined this recovery.");
@@ -92,12 +92,12 @@ public class RecoveryActionController {
       return "redirect:/";
     }
 
-    if (net.getStatus() != GhostNetStatus.RESCUE_IMMINENT) {
-      redirectAttributes.addFlashAttribute("errorMessage", "Recovery is not in progress.");
+    if (net.getStatus() != GhostNetStatus.RECOVERY_PLANNED) {
+      redirectAttributes.addFlashAttribute("errorMessage", "Recovery is not in the planned state.");
       return "redirect:/";
     }
 
-    net.setStatus(GhostNetStatus.SAVED);
+    net.setStatus(GhostNetStatus.RECOVERED);
     ghostNetRepository.save(net);
     redirectAttributes.addFlashAttribute("successMessage", "Marked as recovered.");
     return "redirect:/";
@@ -117,15 +117,20 @@ public class RecoveryActionController {
         appUserRepository
             .findByUsername(authentication.getName())
             .orElseThrow(() -> new IllegalStateException("Authenticated user not found"));
-    ensurePerson(user); // ensures non-anonymous identity
+    Person person = ensurePerson(user); // ensures non-anonymous identity
+    if (person.getPhone() == null || person.getPhone().isBlank()) {
+      redirectAttributes.addFlashAttribute(
+          "errorMessage", "A phone number is required to report a ghost net as missing.");
+      return "redirect:/";
+    }
 
-    if (net.getStatus() == GhostNetStatus.SAVED) {
+    if (net.getStatus() == GhostNetStatus.RECOVERED) {
       redirectAttributes.addFlashAttribute(
           "errorMessage", "Recovered nets cannot be marked missing.");
       return "redirect:/";
     }
 
-    net.setStatus(GhostNetStatus.MISSED);
+    net.setStatus(GhostNetStatus.MISSING);
     ghostNetRepository.save(net);
     redirectAttributes.addFlashAttribute("successMessage", "Marked as missing.");
     return "redirect:/";

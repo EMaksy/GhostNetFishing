@@ -10,13 +10,13 @@ public class ReportForm {
   @NotBlank
   @Pattern(
       regexp = "^-?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)$",
-      message = "Latitude must be between -90 and 90")
+      message = "Latitude must use decimal degrees between -90 and 90.")
   private String latitude;
 
   @NotBlank
   @Pattern(
       regexp = "^-?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$",
-      message = "Longitude must be between -180 and 180")
+      message = "Longitude must use decimal degrees between -180 and 180.")
   private String longitude;
 
   @NotNull private GhostNetSize size;

@@ -54,12 +54,21 @@
                   marker = L.marker([lat, lon]).addTo(map);
                   map.setView([lat, lon], 6);
                 }
+                function normalizeLon(lon) {
+                  // Keep longitude within [-180, 180] even when Leaflet wraps the world.
+                  return ((((lon + 180) % 360) + 360) % 360) - 180;
+                }
+                function clampLat(lat) {
+                  return Math.max(-90, Math.min(90, lat));
+                }
                 map.on('click', function(e) {
-                  const lat = e.latlng.lat.toFixed(6);
-                  const lon = e.latlng.lng.toFixed(6);
-                  latEl.value = lat;
-                  lonEl.value = lon;
-                  updateMarker(lat, lon);
+                  const lat = clampLat(e.latlng.lat);
+                  const lon = normalizeLon(e.latlng.lng);
+                  const latStr = lat.toFixed(6);
+                  const lonStr = lon.toFixed(6);
+                  latEl.value = latStr;
+                  lonEl.value = lonStr;
+                  updateMarker(latStr, lonStr);
                 });
                 // initialize marker if values present
                 const initLat = parseFloat(latEl.value);

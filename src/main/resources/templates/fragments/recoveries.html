@@ -8,9 +8,9 @@
         <div class="filter-links">
           <a th:href="@{${recoveriesBase}(status=ALL)}" th:classappend="${selectedStatus == 'ALL'} ? 'active'">All</a>
           <a th:href="@{${recoveriesBase}(status=REPORTED)}" th:classappend="${selectedStatus == 'REPORTED'} ? 'active'">Reported</a>
-          <a th:href="@{${recoveriesBase}(status=RESCUE_IMMINENT)}" th:classappend="${selectedStatus == 'RESCUE_IMMINENT'} ? 'active'">Rescue imminent</a>
-          <a th:href="@{${recoveriesBase}(status=SAVED)}" th:classappend="${selectedStatus == 'SAVED'} ? 'active'">Saved</a>
-          <a th:href="@{${recoveriesBase}(status=MISSED)}" th:classappend="${selectedStatus == 'MISSED'} ? 'active'">Missing</a>
+          <a th:href="@{${recoveriesBase}(status=RECOVERY_PLANNED)}" th:classappend="${selectedStatus == 'RECOVERY_PLANNED'} ? 'active'">Recovery planned</a>
+          <a th:href="@{${recoveriesBase}(status=RECOVERED)}" th:classappend="${selectedStatus == 'RECOVERED'} ? 'active'">Recovered</a>
+          <a th:href="@{${recoveriesBase}(status=MISSING)}" th:classappend="${selectedStatus == 'MISSING'} ? 'active'">Missing</a>
         </div>
       </div>
 
@@ -51,7 +51,7 @@
             <span th:text="${recovery.rescuer.name}"></span>
           </div>
         </div>
-        <div class="recovery-card__actions"
+        <div class="recovery-card__actions mt-2"
              th:if="${recovery.status == T(com.emaksy.ghostnet.app.model.GhostNetStatus).REPORTED and recovery.rescuer == null}">
           <div sec:authorize="isAuthenticated()">
             <form th:action="@{/recoveries/{id}/join(id=${recovery.id})}" method="post">
