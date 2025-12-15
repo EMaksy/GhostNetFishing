@@ -24,20 +24,23 @@ The application allows anonymous reporting, structured recovery coordination, an
 * Report ghost nets with:
 ** GPS coordinates
 ** Estimated size
-** Initial status
+** Initial status (`REPORTED`)
 * A name is required to file a report; phone is optional when reporting anonymously
-* Only a signed-in, named, contactable person can mark a net as *missing* (anonymous reports cannot)
+* If reporting anonymously, the phone number is not required and will not be stored
+* A net can only be marked as *missing* by a non-anonymous, contactable person
 
 === Recovery Coordination
 
-* Salvaging persons can:
+* Rescuers can:
 ** View ghost nets pending recovery
-** Claim a ghost net for recovery (one salvor per net)
+** Claim a ghost net for recovery (at most one rescuer per net)
 ** Mark a ghost net as recovered
+** Mark a ghost net as missing (requires name + phone; not anonymous)
+** See their assigned recoveries on the dashboard and `/tasks`
 
 === Visibility
-* View unrecovered ghost nets on a map
-* See which salvor is assigned to which net
+* View reported (unassigned) ghost nets on a map (`/map`)
+* See which rescuer is assigned to which net in the recoveries list
 
 == Domain Model
 
@@ -48,42 +51,42 @@ A ghost net consists of:
 * GPS coordinates (latitude and longitude)
 * Estimated size
 * Status
-* Assigned salvor
+* Assigned rescuer (optional)
 
 === Status Lifecycle
 
 * *REPORTED* — Net has been reported
-* *RECOVERY_PLANNED* — A salvor has claimed the net
-* *RECOVERED* — Net has been successfully recovered
-* *MISSING* — Net could not be found at the reported location
-  (requires a non-anonymous report)
+* *RECOVERY_PLANNED* — A rescuer has claimed the net
+* *RECOVERED* — Net has been successfully recovered by the assigned rescuer
+* *MISSING* — Net could not be found at the reported location (requires name + phone; not anonymous)
 
 === Persons
 
 ==== Reporting Person
 
-* Name and phone number (optional)
+* Name
+* Phone number is required unless the report is anonymous
 * May remain anonymous
 
-==== Salvaging Person
+==== Rescuer
 
 * Name and phone number
 * Can work on multiple ghost nets concurrently
-* Each ghost net can have at most one salvor
+* Each ghost net can have at most one rescuer
 
 == User Stories (MoSCoW)
 
 === MUST
 
 . As a reporting person, I want to report ghost nets (optionally anonymously).
-. As a salvaging person, I want to sign up to recover a ghost net.
-. As a salvaging person, I want to see ghost nets that still need recovery.
-. As a salvaging person, I want to mark ghost nets as recovered.
+. As a rescuer, I want to sign up to recover a ghost net.
+. As a rescuer, I want to see ghost nets that still need recovery.
+. As a rescuer, I want to mark ghost nets as recovered.
 
 === COULD
 
-. As a salvaging person, I want to see unrecovered ghost nets on a map.
-. As a salvaging person, I want to see who is planning to recover which nets.
+. As a rescuer, I want to see unrecovered ghost nets on a map.
+. As a rescuer, I want to see who is planning to recover which nets.
 
 == User Stories Implementation
 
@@ -93,26 +96,28 @@ A ghost net consists of:
 
 * *Sign up for recovery* +
   Authenticated users can claim a ghost net. +
-  The system enforces one salvor per net.
+  The system enforces at most one rescuer per net.
 
 * *View nets to recover* +
   Open nets are listed on `/` and `/recoveries` with status filters.
 
 * *Mark as recovered* +
-  Only the assigned salvor can mark a net as `RECOVERED`.
+  Only the assigned rescuer can mark a net as `RECOVERED`.
+
+* *Mark as missing* +
+  Only non-anonymous, contactable people can mark a net as `MISSING`.
 
 * *Map view (optional)* +
-  Leaflet-based map available on `/` and `/recoveries`. +
-  Can be switched to Google Maps with an API key.
+  Leaflet-based map available on `/map` (requires network access for map tiles).
 
 * *Coordination view (optional)* +
-  Listings show the assigned salvor’s name. +
+  Listings show the assigned rescuer’s name. +
   Reassignment is manual (unassign → reassign).
 
 == Technology Stack
 
 * Java 21
-* Spring Boot 3
+* Spring Boot 4
 ** Spring Web
 ** Spring Data JPA
 ** Spring Security
