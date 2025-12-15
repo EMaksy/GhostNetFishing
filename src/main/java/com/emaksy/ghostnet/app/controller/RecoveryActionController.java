@@ -4,6 +4,7 @@ import com.emaksy.ghostnet.app.model.AppUser;
 import com.emaksy.ghostnet.app.model.GhostNet;
 import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.model.Person;
+import com.emaksy.ghostnet.app.model.PersonRole;
 import com.emaksy.ghostnet.app.repository.AppUserRepository;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import com.emaksy.ghostnet.app.repository.PersonRepository;
@@ -54,14 +55,7 @@ public class RecoveryActionController {
             .findByUsername(authentication.getName())
             .orElseThrow(() -> new IllegalStateException("Authenticated user not found"));
 
-    Person rescuer = user.getPerson();
-    if (rescuer == null) {
-      rescuer = new Person(user.getName(), false);
-      rescuer.setPhone(user.getPhone());
-      personRepository.save(rescuer);
-      user.setPerson(rescuer);
-      appUserRepository.save(user);
-    }
+    Person rescuer = ensurePerson(user);
 
     net.setRescuer(rescuer);
     net.setStatus(GhostNetStatus.RECOVERY_PLANNED);
@@ -118,6 +112,11 @@ public class RecoveryActionController {
             .findByUsername(authentication.getName())
             .orElseThrow(() -> new IllegalStateException("Authenticated user not found"));
     Person person = ensurePerson(user); // ensures non-anonymous identity
+    if (person.isAnonymous()) {
+      redirectAttributes.addFlashAttribute(
+          "errorMessage", "Anonymous people cannot report a ghost net as missing.");
+      return "redirect:/";
+    }
     if (person.getPhone() == null || person.getPhone().isBlank()) {
       redirectAttributes.addFlashAttribute(
           "errorMessage", "A phone number is required to report a ghost net as missing.");
@@ -146,12 +145,34 @@ public class RecoveryActionController {
 
   private Person ensurePerson(AppUser user) {
     Person person = user.getPerson();
+    boolean changed = false;
     if (person == null) {
       person = new Person(user.getName(), false);
       person.setPhone(user.getPhone());
+      person.addRole(PersonRole.RESCUER);
       personRepository.save(person);
       user.setPerson(person);
       appUserRepository.save(user);
+      return person;
+    }
+
+    if (person.isAnonymous()) {
+      person.setAnonymous(false);
+      changed = true;
+    }
+
+    if (person.getPhone() == null || person.getPhone().isBlank()) {
+      person.setPhone(user.getPhone());
+      changed = true;
+    }
+
+    if (!person.isRescuer()) {
+      person.addRole(PersonRole.RESCUER);
+      changed = true;
+    }
+
+    if (changed) {
+      personRepository.save(person);
     }
     return person;
   }

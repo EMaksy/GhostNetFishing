@@ -22,7 +22,7 @@ public class SecurityConfig {
                 auth.requestMatchers(
                         "/css/**", "/js/**", "/images/**", "/webjars/**", "/signup", "/login")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/", "/report", "/recoveries", "/map")
+                    .requestMatchers(HttpMethod.GET, "/", "/report", "/recoveries", "/map", "/tasks")
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/home")
                     .permitAll()

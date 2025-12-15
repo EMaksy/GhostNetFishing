@@ -302,9 +302,9 @@ button,
 }
 
 .badge.reported { background-color: #ffebee; color: #c62828; }
-.badge.rescue_imminent { background-color: #fff4e5; color: #ed6c02; }
-.badge.saved { background-color: #e6f4ea; color: #2e7d32; }
-.badge.missed { background-color: #eceff1; color: #607d8b; }
+.badge.recovery_planned { background-color: #fff4e5; color: #c06a00; }
+.badge.recovered { background-color: #e6f4ea; color: #1e7a35; }
+.badge.missing { background-color: #e0f2fe; color: #035388; }
 
 .filter-links {
     display: flex;

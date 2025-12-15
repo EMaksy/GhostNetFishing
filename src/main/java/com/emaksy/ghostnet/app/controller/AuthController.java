@@ -3,6 +3,7 @@ package com.emaksy.ghostnet.app.controller;
 import com.emaksy.ghostnet.app.controller.dto.SignupForm;
 import com.emaksy.ghostnet.app.model.AppUser;
 import com.emaksy.ghostnet.app.model.Person;
+import com.emaksy.ghostnet.app.model.PersonRole;
 import com.emaksy.ghostnet.app.repository.AppUserRepository;
 import com.emaksy.ghostnet.app.repository.PersonRepository;
 import jakarta.validation.Valid;
@@ -58,6 +59,7 @@ public class AuthController {
 
     Person person = new Person(form.getName(), false);
     person.setPhone(form.getPhone());
+    person.addRole(PersonRole.RESCUER);
     personRepository.save(person);
 
     AppUser user =

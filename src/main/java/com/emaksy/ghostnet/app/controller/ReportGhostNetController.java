@@ -4,6 +4,7 @@ import com.emaksy.ghostnet.app.controller.dto.ReportForm;
 import com.emaksy.ghostnet.app.model.GhostNet;
 import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.model.Person;
+import com.emaksy.ghostnet.app.model.PersonRole;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import com.emaksy.ghostnet.app.repository.PersonRepository;
 import jakarta.validation.Valid;
@@ -63,6 +64,7 @@ public class ReportGhostNetController {
     boolean isAnonymous = form.isAnonymous();
 
     Person person = new Person(form.getName(), isAnonymous);
+    person.addRole(PersonRole.REPORTER);
     if (!isAnonymous) {
       person.setPhone(form.getPhone());
     }
