@@ -131,6 +131,7 @@ A ghost net consists of:
 * Java 21 (JDK)
 * Docker and Docker Compose
 * Bash-compatible shell
+* Maven is shipped via the included wrapper (`./mvnw`); a global Maven install is optional
 
 == Configuration
 
@@ -148,21 +149,16 @@ Configuration can be overridden via environment variables or by editing
 
 == Running Locally
 
-=== 1. Start the Database
+=== 1. Run the Application (starts DB via Docker Compose)
 
 [source,bash]
 ----
-docker compose up -d
-----
-
-=== 2. Run the Application
-
-[source,bash]
-----
-mvn spring-boot:run
+./mvnw spring-boot:run
 ----
 
 Dependencies will be downloaded on the first run.
+
+Spring Boot 4 with `spring-boot-docker-compose` starts/stops the MySQL service defined in `docker-compose.yaml` automatically (Docker daemon must be running). If you prefer manual control, you can still start it yourself with `docker compose up -d` before running the app.
 
 === 3. Access the Application
 
