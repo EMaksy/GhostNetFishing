@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class DefaultController {
+public class HomeController {
 
   private final GhostNetRepository ghostNetRepository;
   private final MyTasksService myTasksService;
   private final String mapsApiKey;
 
-  public DefaultController(
+  public HomeController(
       GhostNetRepository ghostNetRepository,
       MyTasksService myTasksService,
       @Value("${google.maps.api-key:}") String mapsApiKey) {
