@@ -1,7 +1,8 @@
 package com.emaksy.ghostnet.app.controller;
 
-import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
+import com.emaksy.ghostnet.app.model.GhostNetStatus;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,10 @@ public class MapController {
 
   @GetMapping("/map")
   public String map(Model model) {
-    model.addAttribute("openRecoveries", ghostNetRepository.findByStatus(GhostNetStatus.REPORTED));
+    model.addAttribute(
+        "openRecoveries",
+        ghostNetRepository.findByStatusIn(
+            List.of(GhostNetStatus.REPORTED, GhostNetStatus.RECOVERY_PLANNED)));
     return "pages/map-page";
   }
 }
