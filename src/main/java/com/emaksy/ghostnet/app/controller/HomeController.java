@@ -3,7 +3,6 @@ package com.emaksy.ghostnet.app.controller;
 import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
 import com.emaksy.ghostnet.app.service.MyTasksService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +14,11 @@ public class HomeController {
 
   private final GhostNetRepository ghostNetRepository;
   private final MyTasksService myTasksService;
-  private final String mapsApiKey;
 
   public HomeController(
-      GhostNetRepository ghostNetRepository,
-      MyTasksService myTasksService,
-      @Value("${google.maps.api-key:}") String mapsApiKey) {
+      GhostNetRepository ghostNetRepository, MyTasksService myTasksService) {
     this.ghostNetRepository = ghostNetRepository;
     this.myTasksService = myTasksService;
-    this.mapsApiKey = mapsApiKey;
   }
 
   @GetMapping("/")
@@ -41,7 +36,6 @@ public class HomeController {
     model.addAttribute("selectedStatus", selected != null ? selected.name() : "ALL");
     model.addAttribute("recoveriesBase", "/");
     model.addAttribute("myTasks", myTasksService.activeTasks(authentication));
-    model.addAttribute("mapsApiKey", mapsApiKey);
 
     return "index";
   }

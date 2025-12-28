@@ -2,7 +2,6 @@ package com.emaksy.ghostnet.app.controller;
 
 import com.emaksy.ghostnet.app.model.GhostNetStatus;
 import com.emaksy.ghostnet.app.repository.GhostNetRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RecoveriesController {
 
   private final GhostNetRepository ghostNetRepository;
-  private final String mapsApiKey;
 
   public RecoveriesController(
-      GhostNetRepository ghostNetRepository, @Value("${google.maps.api-key:}") String mapsApiKey) {
+      GhostNetRepository ghostNetRepository) {
     this.ghostNetRepository = ghostNetRepository;
-    this.mapsApiKey = mapsApiKey;
   }
 
   @GetMapping("/recoveries")
@@ -32,7 +29,6 @@ public class RecoveriesController {
     }
     model.addAttribute("selectedStatus", selected != null ? selected.name() : "ALL");
     model.addAttribute("recoveriesBase", "/recoveries");
-    model.addAttribute("mapsApiKey", mapsApiKey);
     return "pages/recovery-page";
   }
 
