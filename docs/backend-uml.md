@@ -1,5 +1,5 @@
 ```mermaid
-%%{init: {'flowchart': {'useMaxWidth': false, 'nodeSpacing': 55, 'rankSpacing': 70, 'padding': 18}}}%%
+%%{init: {'flowchart': {'useMaxWidth': false, 'nodeSpacing': 55, 'rankSpacing': 70, 'padding': 18, 'curve': 'linear', 'defaultRenderer': 'elk', 'elk': {'algorithm': 'layered', 'direction': 'RIGHT', 'edgeRouting': 'ORTHOGONAL', 'nodePlacement.strategy': 'NETWORK_SIMPLEX'}}}}%%
 graph LR
   %% Entry & Security
   Client[Client/Browser]
